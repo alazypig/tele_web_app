@@ -349,7 +349,7 @@ abstract class BiometricManagerJsImpl {
     void Function(
       BiometricRequestAccessParams params, [
       void Function(bool isGranted) callback,
-    ]),
+    ]) requestAccess,
   });
 
   external bool get isInited;
