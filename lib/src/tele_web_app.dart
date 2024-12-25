@@ -44,6 +44,9 @@ class TeleWebApp extends JsObjectWrapper<tele.WebAppJsImpl> {
   ContentSafeAreaInset get contentSafeAreaInset =>
       ContentSafeAreaInset.fromJsObject(jsObject.contentSafeAreaInset);
 
+  BiometricManager get biometricManager =>
+      BiometricManager.fromJsObject(jsObject.biometricManager);
+
   /// The color scheme currently used in the Telegram app.
   ///
   /// Either “light” or “dark”.
@@ -810,4 +813,29 @@ class OpenLinkOptions extends JsObjectWrapper<tele.OpenLinkOptionsJsImpl> {
 
   /// The link will be opened in Instant View mode if possible.
   final bool? tryInstantView;
+}
+
+class BiometricManager extends JsObjectWrapper<tele.BiometricManagerJsImpl> {
+  BiometricManager.fromJsObject(super.jsObject);
+
+  bool get isInited => jsObject.isInited;
+  bool get isBiometricAvailable => jsObject.isBiometricAvailable;
+  String get biometricType => jsObject.biometricType;
+  bool get isAccessRequested => jsObject.isAccessRequested;
+  bool get isAccessGranted => jsObject.isAccessGranted;
+  bool get isBiometricTokenSaved => jsObject.isBiometricTokenSaved;
+  String get deviceId => jsObject.deviceId;
+
+  void init([
+    void Function()? callback,
+  ]) {
+    jsObject.init(allowInteropOrNull(callback));
+  }
+
+  void requestAccess(
+    tele.BiometricRequestAccessParams params, [
+    void Function(bool granted)? callback,
+  ]) {
+    jsObject.requestAccess(params, allowInteropOrNull(callback));
+  }
 }

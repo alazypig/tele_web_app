@@ -29,6 +29,7 @@ abstract class WebAppJsImpl {
   external ThemeParamsJsImpl get themeParams;
   external SafeAreaInsetJsImpl get safeAreaInset;
   external ContentSafeAreaInsetJsImpl get contentSafeAreaInset;
+  external BiometricManagerJsImpl get biometricManager;
   external bool get isExpanded;
   external num get viewportHeight;
   external num get viewportStableHeight;
@@ -321,4 +322,46 @@ abstract class ScanQrPopupParamsJsImpl {
   });
 
   external String? get text;
+}
+
+@JS()
+@anonymous
+abstract class BiometricRequestAccessParams {
+  external factory BiometricRequestAccessParams({
+    String? reason,
+  });
+
+  external String? get reason;
+}
+
+@JS()
+@anonymous
+abstract class BiometricManagerJsImpl {
+  external factory BiometricManagerJsImpl({
+    bool isInited,
+    bool isBiometricAvailable,
+    String biometricType,
+    bool isAccessRequested,
+    bool isAccessGranted,
+    bool isBiometricTokenSaved,
+    String deviceId,
+    void Function(void Function() callback) init,
+    void Function(
+      BiometricRequestAccessParams params, [
+      void Function(bool isGranted) callback,
+    ]),
+  });
+
+  external bool get isInited;
+  external bool get isBiometricAvailable;
+  external String get biometricType;
+  external bool get isAccessRequested;
+  external bool get isAccessGranted;
+  external bool get isBiometricTokenSaved;
+  external String get deviceId;
+  external void Function(void Function()? callback) init;
+  external void Function(
+    BiometricRequestAccessParams params, [
+    void Function(bool isGranted)? callback,
+  ]) requestAccess;
 }
