@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_positional_boolean_parameters
+import 'dart:html' as html;
+
 import 'package:js/js.dart' show allowInterop;
 import 'package:tele_web_app/src/exceptions/exceptions.dart';
 import 'package:tele_web_app/src/interop/js_object_wrapper.dart';
@@ -328,6 +330,36 @@ class TeleWebApp extends JsObjectWrapper<tele.WebAppJsImpl> {
     } catch (e) {
       throw TelegramWebAppException(e.toString());
     }
+  }
+
+  /// openLink did not offer url scheme support.
+  /// source code:
+  /// WebApp.openLink = function (url, options) {
+  ///   var a = document.createElement('A');
+  ///   a.href = url;
+  ///   if (a.protocol != 'http:' &&
+  ///       a.protocol != 'https:') {
+  ///     console.error('[Telegram.WebApp] Url protocol is not supported', url);
+  ///     throw Error('WebAppTgUrlInvalid');
+  ///   }
+  ///   var url = a.href;
+  ///   options = options || {};
+  ///   if (versionAtLeast('6.1')) {
+  ///     var req_params = {url: url};
+  ///     if (versionAtLeast('6.4') && options.try_instant_view) {
+  ///      req_params.try_instant_view = true;
+  ///     }
+  ///     if (versionAtLeast('7.6') && options.try_browser) {
+  ///       req_params.try_browser = options.try_browser;
+  ///     }
+  ///     WebView.postEvent('web_app_open_link', false, req_params);
+  ///   } else {
+  ///     window.open(url, '_blank');
+  ///   }
+  ///  };
+  /// use window.open instead.
+  void openUrlProtocol(String url) {
+    html.window.open(url, '_blank');
   }
 
   /// A method that opens an invoice using the link url.
